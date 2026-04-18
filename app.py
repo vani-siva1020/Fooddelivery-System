@@ -49,7 +49,7 @@ menu = [
 
 @app.route("/")
 def home():
-    return "Food Delivery App Running 🚀"
+    return render_templates("index.html",message="Food Delivery App Running")
 
 
 
