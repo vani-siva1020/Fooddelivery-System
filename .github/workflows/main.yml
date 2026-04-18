@@ -1,4 +1,4 @@
-name: DevOps CI
+name: CI + Docker
 
 on:
   push:
@@ -9,23 +9,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+    - name: Install deps
+      run: pip install -r requirements.txt
 
-    - name: Start Flask App
+    - name: Run app test
       run: |
-        nohup python app.py > output.log 2>&1 &
+        nohup python app.py > log.txt 2>&1 &
         sleep 5
+        curl --fail http://127.0.0.1:5001/
 
-    - name: Test API
-      run: |
-        curl --fail http://127.0.0.1:5001/ || exit 1
+    - name: Build Docker image
+      run: docker build -t food-app .
