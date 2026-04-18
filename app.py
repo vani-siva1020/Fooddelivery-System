@@ -47,14 +47,13 @@ menu = [
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", message="Food Delivery App Running")
 
 
 @app.route("/create", methods=["POST"])
 def create_account():
     global customer
     data = request.json
-
     customer = Customer(data["id"], data["name"], data["password"])
     return jsonify({"message": "Account Created!"})
 
@@ -105,8 +104,6 @@ def add_food():
 
 @app.route("/finish", methods=["GET"])
 def finish_order():
-    global order
-
     response = {
         "total": order.total,
         "items": order.items,
