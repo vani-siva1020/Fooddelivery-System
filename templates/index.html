@@ -4,7 +4,47 @@
     <title>Food Delivery App</title>
 </head>
 <body>
-    <h1>🍔 Food Delivery App Running</h1>
-    <p>Backend + Docker + Flask Working</p>
+
+<h1>{{ message }}</h1>
+
+<h3>Menu</h3>
+<ul id="menu"></ul>
+
+<h3>Order</h3>
+<input type="text" id="item" placeholder="Enter item name">
+<button onclick="order()">Order</button>
+
+<p id="msg"></p>
+
+<script>
+
+fetch("/menu")
+.then(res => res.json())
+.then(data => {
+    let list = "";
+    data.forEach(item => {
+        list += `<li>${item.name} - ₹${item.price}</li>`;
+    });
+    document.getElementById("menu").innerHTML = list;
+});
+
+
+function order() {
+    let item = document.getElementById("item").value;
+
+    fetch("/add", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({item: item})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("msg").innerText = data.message || data.error;
+    });
+}
+</script>
+
+<h1>🍔 Food Delivery App Running</h1>
+
 </body>
 </html>
