@@ -27,4 +27,4 @@ jobs:
         run: docker build -t food-app .
 
       - name: Test Docker run
-        run: docker run -d -p 5001:5001 food-app
+        run: docker run -d -p 5003:5003 food-app
